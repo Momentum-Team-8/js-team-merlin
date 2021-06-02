@@ -4,7 +4,7 @@ const form = document.querySelector(".form")
 
 const movieText = document.querySelector("#New-Movie")
 
-const movieTitle = document.querySelector(".movies")
+const movieTitle = document.querySelector(".Movies")
 
 form.addEventListener('submit', e => {
     e.preventDefault();
@@ -29,6 +29,7 @@ function createMovie (text) {
 function renderMovie (data) {
     const movieList = document.createElement("li")
     movieList.id = data.id
+    console.log(movieList.id)
     renderMovieText(movieList, data) 
     movieTitle.appendChild(movieList)
 }
@@ -53,16 +54,15 @@ function getlistofMovies ()
 {
     console.log('confirm list')
     fetch (url)
-    .then (resp =>
-        resp.json()    )
-        .then(data =>  { 
-            for (let x of data) {
-                renderMovie(x)
-            }
-        } )
-        ;
+    .then (resp => resp.json())
+    .then(data =>  { 
+        for (let x of data) {
+            renderMovie(x)
+        }
+    })
+    
 }
 
 getlistofMovies()
-createListItem()
+// createListItem()
 
