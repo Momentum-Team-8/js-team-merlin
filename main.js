@@ -12,7 +12,6 @@ form.addEventListener('submit', e => {
 })
 
 function createMovie (text) {
-    console.log(text)
     fetch (url, {
         method: "POST",
         headers: {"Content-Type" : "application/JSON"} ,
@@ -29,13 +28,16 @@ function createMovie (text) {
 function renderMovie (data) {
     const movieList = document.createElement("li")
     movieList.id = data.id
-    console.log(movieList.id)
     renderMovieText(movieList, data) 
     movieTitle.appendChild(movieList)
 }
 
 function renderMovieText(movieList, data) 
 { 
+    const watchedAt = document.createElement('p')
+    if (data.watched_at !== null) {
+        watchedAt.innerHTML = data.watched_at
+    }
     const Title = document.createElement ("p")
     const del = document.createElement('button')
     del.innerHTML = "Delete movie"
@@ -47,6 +49,7 @@ function renderMovieText(movieList, data)
     movieList.appendChild(Title)
     movieList.appendChild(del)
     movieList.appendChild(watchedButton)
+    movieList.appendChild(watchedAt)
 }
 
 function createListItem() {
@@ -58,7 +61,6 @@ function createListItem() {
 
 function getlistofMovies ()
 {
-    console.log('confirm list')
     fetch (url)
     .then (resp => resp.json())
     .then(data =>  { 
@@ -93,22 +95,23 @@ movieTitle.addEventListener('click', e => {
             method: "PATCH",
             headers: {"Content-Type" : "application/JSON"} ,
             body: JSON.stringify({
-                // title: text,
-                // create_at: moment().format(),
-                watched_at: "watched at" + moment().format("MMM Do")
+                watched_at: "watched at " + moment().format("MMM Do")
             })
             })
             .then (response => response.json())
-            .then (data => console.log(data))
-            location.reload()
+            .then (data => {
+                const watchedAt = document.createElement('p')
+                watchedAt.innerHTML = data.watched_at
+                text.parentElement.appendChild(watchedAt)
+            })
     }
 
-    movieTitle.addEventListener('click', e => {
-        e.preventDefault();
-        if (e.target.classList.contains("watched")) {
-            Watched(e.target)
-        }
-        })
+movieTitle.addEventListener('click', e => {
+    e.preventDefault();
+    if (e.target.classList.contains("watched")) {
+        Watched(e.target)
+    }
+})
 
 
 
