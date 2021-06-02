@@ -19,7 +19,7 @@ function createMovie (text) {
         body: JSON.stringify({
             title: text,
             create_at: moment().format(),
-            watched: false
+            watched_at: null 
         })
         })
         .then (response => response.json())
@@ -65,9 +65,52 @@ function getlistofMovies ()
         for (let x of data) {
             renderMovie(x)
         }
-    })
+    })    
     
 }
+
+function deleteMovie (movie)
+{
+    const movieId = movie.parentElement.id
+    fetch(url + "/" + `${movieId}`,{
+        method: "DELETE"
+    }).then(()=> movie.parentElement.remove())
+
+}
+
+movieTitle.addEventListener('click', e => {
+    e.preventDefault();
+    if (e.target.classList.contains("delete")) {
+        deleteMovie(e.target)
+    }
+    })
+
+    function Watched (text) {
+        const movieId = text.parentElement.id
+    fetch(url + "/" + `${movieId}`,{
+        // console.log(text)
+        // fetch (url, {
+            method: "PATCH",
+            headers: {"Content-Type" : "application/JSON"} ,
+            body: JSON.stringify({
+                // title: text,
+                // create_at: moment().format(),
+                watched_at: "watched at" + moment().format("MMM Do")
+            })
+            })
+            .then (response => response.json())
+            .then (data => console.log(data))
+            location.reload()
+    }
+
+    movieTitle.addEventListener('click', e => {
+        e.preventDefault();
+        if (e.target.classList.contains("watched")) {
+            Watched(e.target)
+        }
+        })
+
+
 
 getlistofMovies()
 // createListItem()
