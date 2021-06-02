@@ -37,10 +37,16 @@ function renderMovie (data) {
 function renderMovieText(movieList, data) 
 { 
     const Title = document.createElement ("p")
+    const del = document.createElement('button')
+    del.innerHTML = "Delete movie"
     movieList.innerHTML = data.title
     const watchedButton = document.createElement ("button")
+    watchedButton.innerHTML = "Mark as watched"
     watchedButton.classList.add ("watched")
+    del.classList.add('delete')
     movieList.appendChild(Title)
+    movieList.appendChild(del)
+    movieList.appendChild(watchedButton)
 }
 
 function createListItem() {
